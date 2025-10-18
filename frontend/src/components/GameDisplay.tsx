@@ -22,7 +22,9 @@ const GameDisplay = ({ game }: GameDisplayProps) => {
 	const doMove = (asker: number, asked: number, card: number) => {
 		const result = game.move(asker, asked, card);
 		setCurrentMove([asker, asked, card, result]);
-		game.bot.updateBot([asker, asked, card, result]);
+		if (game.bot.turn !== asker) {
+			game.bot.updateBot([asker, asked, card, result]);
+		}
 		setTimeout(() => {
 			setCurrentMove([]);
 			nextTurn();

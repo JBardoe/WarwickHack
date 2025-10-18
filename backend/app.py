@@ -25,7 +25,7 @@ def startGame():
 
 @app.route("/api/getMove")
 def getMove():
-	(player, ask) = session['bot'].getMove()
+	(player, ask) = session['bot'].getMove()#TODO
 	return jsonify(player=player, ask=ask)
 
 @app.route("/api/giveResult")
@@ -35,7 +35,18 @@ def giveResult():
 
 @app.route("/api/eliminatePair")
 def eliminatePair():
-	#TODO
+	#TODO might be removable
+	return ""
+
+@app.route("/api/updateBot")
+def updateBot():
+	json = request.get_json()
+	asker = json.get("asker")
+	asked = json.get("asked")
+	card = json.get("card")
+	result = json.get("result")
+
+	#TODO 
 	return ""
 
 @app.route('/')

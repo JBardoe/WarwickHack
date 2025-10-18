@@ -56,6 +56,7 @@ export default class Game {
 	}
 
 	eliminatePair(card: number) {
+		//TODO might be removable
 		this.bot.eliminatePair(card);
 	}
 

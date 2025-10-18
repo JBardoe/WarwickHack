@@ -32,24 +32,10 @@ export default class Player {
 
 		while (i < this.hand.length - 1) {
 			if (this.hand[i] == this.hand[i + 1]) {
-				console.log(
-					`Current element is a ${
-						this.hand[i]
-					} which is the same as ${
-						this.hand[i + 1]
-					} so we do ELIMINATE`
-				);
 				this.game.eliminatePair(this.hand[i]);
 				this.hand.splice(i, 2);
 				this.score++;
 			} else {
-				console.log(
-					`Current element is a ${
-						this.hand[i]
-					} which is different to ${
-						this.hand[i + 1]
-					} so we do nothing`
-				);
 				i++;
 			}
 		}
