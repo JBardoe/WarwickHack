@@ -26,7 +26,10 @@ const BotMoveGetter = ({
 				setStatus(2);
 				setLastMove(move);
 			})
-			.catch((err) => console.error(err));
+			.catch((err) => {
+				console.error(err);
+				setStatus(0);
+			});
 	};
 
 	const giveResult = (result: number) => {
@@ -35,13 +38,23 @@ const BotMoveGetter = ({
 			.catch((err) => console.error(err));
 	};
 
-	return status == 0 ? ( //TODO styling
+	return status == 0 ? (
 		<div>
-			<button>Get Bot Move</button>
+			<button
+				onClick={() => {
+					setStatus(1);
+					getMove();
+				}}
+				className="cursor-pointer bg-green-500 hover:bg-green-700 active:bg-green-900 hover:scale-[105%] active:scale-[97%] rounded-full font-bold text-2xl p-5"
+			>
+				Get Bot Move
+			</button>
 		</div>
 	) : status == 1 ? (
 		<div>
-			<p>Loading...</p>
+			<p className="italic text-gray-500 text-xl cursor-not-allowed">
+				Loading...
+			</p>
 		</div>
 	) : (
 		""

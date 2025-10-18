@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Game from "../types/Game";
+import axios from "axios";
 
 interface NewGameMenuProps {
 	setCurrentGame: (newGame: Game) => void;
@@ -9,7 +10,12 @@ const NewGameMenu = ({ setCurrentGame }: NewGameMenuProps) => {
 	const [currentNum, setCurrentNum] = useState<number>(1);
 
 	const handleSubmit = () => {
-		setCurrentGame(new Game(currentNum));
+		const newGame = new Game(currentNum);
+		setCurrentGame(newGame);
+		axios.post("https://localhost:5000/api/startGame", {
+			numPlayers: newGame.players.length - 1,
+			turn: newGame.bot.turn,
+		});
 	};
 
 	return (

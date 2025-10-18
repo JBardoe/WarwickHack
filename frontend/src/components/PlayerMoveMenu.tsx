@@ -1,5 +1,5 @@
+import { useState } from "react";
 import type Game from "../types/Game";
-import type Player from "../types/Player";
 
 interface PlayerMoveMenuProps {
 	currentPlayer: number;
@@ -12,7 +12,11 @@ const PlayerMoveMenu = ({
 	game,
 	setLastMove,
 }: PlayerMoveMenuProps) => {
-	return <div>PlayerMoveMenu</div>; //TODO
+	const [cardAsk, setCardAsk] = useState(0);
+
+	const handleSubmit = () => {};
+
+	return cardAsk === 0 ? <div>Choose card</div> : <div>Choose player</div>; //TODO
 };
 
 export default PlayerMoveMenu;

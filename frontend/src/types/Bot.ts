@@ -3,8 +3,8 @@ import Player from "./Player";
 import type Game from "./Game";
 
 export default class Bot extends Player {
-	constructor(game: Game) {
-		super(game);
+	constructor(game: Game, turn: number) {
+		super(game, turn);
 	}
 
 	eliminatePair(card: number) {

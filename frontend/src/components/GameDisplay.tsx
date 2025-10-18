@@ -19,9 +19,17 @@ const GameDisplay = ({ game }: GameDisplayProps) => {
 
 	return (
 		<>
-			<GameState game={game} />
-			<div>
-				{typeof game.players[currentPlayer] == typeof Bot ? (
+			{game.ended.length === game.players.length ? (
+				<WinnerDisplay game={game} />
+			) : (
+				<GameState
+					game={game}
+					lastMove={lastMove}
+					currentPlayer={currentPlayer}
+				/>
+			)}
+			<div className="bg-gray-200 dark:bg-gray-600 flex flex-row items-center justify-center w-full h-[30vh]">
+				{currentPlayer === game.bot.turn ? (
 					<BotMoveGetter
 						currentPlayer={currentPlayer}
 						game={game}

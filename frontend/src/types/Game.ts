@@ -5,6 +5,7 @@ export default class Game {
 	deck: number[];
 	players: Player[];
 	bot: Bot;
+	ended: Player[];
 
 	constructor(numPlayers: number) {
 		this.deck = Array.from({ length: 4 }, () =>
@@ -12,23 +13,28 @@ export default class Game {
 		)
 			.flat()
 			.sort((a: number, b: number) => a - b);
-		this.players = [];
 
-		for (let i = 0; i < numPlayers; i++) {
-			this.players.push(new Player(this));
-			this.players[i].takeCards(this.deck);
-		}
+		this.ended = [];
 
-		this.bot = new Bot();
+		this.bot = new Bot(this, 0);
 		this.bot.takeCards(this.deck);
 
-		this.players.push(this.bot);
-		for (let i = this.players.length - 1; i > 0; i--) {
+		this.players = [this.bot];
+
+		for (let i = 0; i < numPlayers; i++) {
+			const newPlayer = new Player(this, i + 1);
+			this.players.push(newPlayer);
+			newPlayer.takeCards(this.deck);
+		}
+
+		for (let i = this.players.length - 1; i >= 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
 			[this.players[i], this.players[j]] = [
 				this.players[j],
 				this.players[i],
 			];
+			this.players[i].turn = i;
+			this.players[j].turn = j;
 		}
 	}
 
@@ -51,5 +57,18 @@ export default class Game {
 
 	eliminatePair(card: number) {
 		this.bot.eliminatePair(card);
+	}
+
+	playerEnd(player: Player) {
+		this.ended.push(player);
+		if (this.ended.length === this.players.length - 1) {
+			const remainingPlayer = this.players.filter((i) => {
+				return this.ended.indexOf(i) < 0;
+			})[0];
+			while (this.deck.length > 0) {
+				//Potential infinite loop
+				this.goFish(remainingPlayer);
+			}
+		}
 	}
 }

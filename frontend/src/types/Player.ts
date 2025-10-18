@@ -4,11 +4,13 @@ export default class Player {
 	hand: number[];
 	score: number;
 	game: Game;
+	turn: number;
 
-	constructor(game: Game) {
+	constructor(game: Game, turn: number) {
 		this.hand = [];
 		this.score = 0;
 		this.game = game;
+		this.turn = turn;
 	}
 
 	//Player takes their initial hand from the deck
@@ -35,6 +37,9 @@ export default class Player {
 			} else {
 				i++;
 			}
+		}
+		if (this.hand.length == 0) {
+			this.game.playerEnd(this);
 		}
 	}
 
