@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory, session
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 
@@ -17,6 +17,11 @@ def handle_error(e):
 	print("Error:", e)
 	return jsonify(message="An unexpected error has occurred"), 500
 
+@app.route("/api/startGame")
+def startGame():
+	json = request.get_json()
+	numPlayers = json.get("numPlayers")
+	
 
 @app.route('/')
 @app.route('/<path:path>')
