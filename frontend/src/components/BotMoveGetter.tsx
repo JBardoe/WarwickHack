@@ -1,30 +1,25 @@
 import axios from "axios";
-import type Game from "../types/Game";
 import { useState } from "react";
 
 interface BotMoveGetterProps {
 	currentPlayer: number;
-	game: Game;
-	setLastMove: (move: number[]) => void;
+	doMove: (asker: number, asked: number, card: number) => number;
 }
 
-const BotMoveGetter = ({
-	currentPlayer,
-	game,
-	setLastMove,
-}: BotMoveGetterProps) => {
+const BotMoveGetter = ({ currentPlayer, doMove }: BotMoveGetterProps) => {
 	const [status, setStatus] = useState(0);
 
 	const getMove = () => {
 		axios
 			.post("https://localhost:5000/api/getMove")
 			.then((res) => {
-				const move = [currentPlayer, res.data.player, res.data.ask];
-				giveResult(
-					game.move(currentPlayer, res.data.player, res.data.ask)
+				const result = doMove(
+					currentPlayer,
+					res.data.player,
+					res.data.ask
 				);
+				giveResult(result);
 				setStatus(2);
-				setLastMove(move);
 			})
 			.catch((err) => {
 				console.error(err);

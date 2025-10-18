@@ -41,7 +41,7 @@ export default class Game {
 	move(asker: number, asked: number, card: number) {
 		if (this.players[asked].hasCard(card) != -1) {
 			const num = this.players[asked].giveCard(card);
-			this.players[asked].gainCard(card, num);
+			this.players[asker].gainCard(card, num);
 			return -1;
 		}
 		return this.goFish(this.players[asker]);

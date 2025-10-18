@@ -12,4 +12,8 @@ export default class Bot extends Player {
 			.post("https://localhost:5000/api/eliminatePair", { card: card })
 			.catch((err) => console.error(err));
 	}
+
+	updateBot(move: number[]) {
+		//TODO
+	}
 }
