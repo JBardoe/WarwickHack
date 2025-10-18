@@ -2,12 +2,16 @@ import Bot from "./Bot";
 import Player from "./Player";
 
 export default class Game {
-	deck: string[];
+	deck: number[];
 	humans: Player[];
 	bot: Bot;
 
 	constructor(numPlayers: number) {
-		this.deck = [...fullDeck];
+		this.deck = Array.from({ length: 4 }, () =>
+			Array.from({ length: 13 }, (_, i) => i + 1)
+		)
+			.flat()
+			.sort((a: number, b: number) => a - b);
 		this.humans = [];
 
 		for (let i = 0; i < numPlayers; i++) {
@@ -19,58 +23,3 @@ export default class Game {
 		this.bot.takeCards(this.deck);
 	}
 }
-
-const fullDeck = [
-	"A",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-	"9",
-	"10",
-	"J",
-	"Q",
-	"K",
-	"A",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-	"9",
-	"10",
-	"J",
-	"Q",
-	"K",
-	"A",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-	"9",
-	"10",
-	"J",
-	"Q",
-	"K",
-	"A",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-	"9",
-	"10",
-	"J",
-	"Q",
-	"K",
-];

@@ -7,7 +7,9 @@ const Home = () => {
 	const [currentGame, setCurrentGame] = useState<Game | null>(null);
 
 	return !currentGame ? (
-		<NewGameMenu setCurrentGame={setCurrentGame} />
+		<div className="w-full h-full flex flex-col items-center justify-center">
+			<NewGameMenu setCurrentGame={setCurrentGame} />
+		</div>
 	) : (
 		<GameDisplay game={currentGame} />
 	);
