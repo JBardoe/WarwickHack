@@ -68,7 +68,11 @@ const PlayerMoveMenu = ({
 					</h3>
 					<div className="flex flex-row flex-wrap gap-x-5 gap-y-2 justify-center items-center">
 						{game.players.map((value, index) => {
-							if (value.turn === currentPlayer) return null;
+							if (
+								value.turn === currentPlayer ||
+								value.hand.length === 0
+							)
+								return null;
 							return (
 								<div
 									key={index}

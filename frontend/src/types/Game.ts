@@ -48,6 +48,7 @@ export default class Game {
 	}
 
 	goFish(player: Player) {
+		if (this.deck.length === 0) return -2;
 		const index = Math.floor(Math.random() * this.deck.length);
 		const card = this.deck[index];
 		this.deck.splice(index, 1);

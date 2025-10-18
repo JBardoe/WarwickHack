@@ -27,7 +27,6 @@ export default class Player {
 
 	//Check for pairs in the current hand
 	checkPairs() {
-		console.log("==========Player " + this.turn + "===========");
 		let i = 0;
 
 		while (i < this.hand.length - 1) {
@@ -110,7 +109,6 @@ export default class Player {
 			} else {
 				right = mid - 1;
 			}
-			console.log("Hi");
 		}
 
 		for (let i = 0; i < num; i++) {
