@@ -3,8 +3,7 @@ import Player from "./Player";
 
 export default class Game {
 	deck: number[];
-	humans: Player[];
-	bot: Bot;
+	players: Player[];
 
 	constructor(numPlayers: number) {
 		this.deck = Array.from({ length: 4 }, () =>
@@ -12,14 +11,40 @@ export default class Game {
 		)
 			.flat()
 			.sort((a: number, b: number) => a - b);
-		this.humans = [];
+		this.players = [];
 
 		for (let i = 0; i < numPlayers; i++) {
-			this.humans.push(new Player());
-			this.humans[i].takeCards(this.deck);
+			this.players.push(new Player());
+			this.players[i].takeCards(this.deck);
 		}
 
-		this.bot = new Bot();
-		this.bot.takeCards(this.deck);
+		const bot = new Bot();
+		bot.takeCards(this.deck);
+
+		this.players.push(bot);
+		for (let i = this.players.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[this.players[i], this.players[j]] = [
+				this.players[j],
+				this.players[i],
+			];
+		}
+	}
+
+	move(asker: number, asked: number, card: number) {
+		if (this.players[asked].hasCard(card) != -1) {
+			const num = this.players[asked].giveCard(card);
+			this.players[asked].gainCard(card, num);
+			return -1;
+		}
+		return this.goFish(this.players[asker]);
+	}
+
+	goFish(player: Player) {
+		const index = Math.floor(Math.random() * this.deck.length);
+		const card = this.deck[index];
+		this.deck.splice(index, 1);
+		player.gainCard(card, 1);
+		return card;
 	}
 }

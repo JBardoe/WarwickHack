@@ -1,13 +1,11 @@
 import os
 from flask import Flask, jsonify, request, send_from_directory, session
 from flask_cors import CORS
-from flask_sqlalchemy import SQLAlchemy
+
+from bot import Bot
 
 app = Flask(__name__, static_folder="build", static_url_path="/")
 app.secret_key = "secretKey"
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///whack.sqlite'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# db.init_app(app)
 
 CORS(app, supports_credentials=True)
 
@@ -21,7 +19,19 @@ def handle_error(e):
 def startGame():
 	json = request.get_json()
 	numPlayers = json.get("numPlayers")
-	
+	turn = json.get("turn") #0-numPlayers + 1 - where the bot is in the turn order
+
+	session['bot'] = Bot()#TODO
+
+@app.route("/api/getMove")
+def getMove():
+	(player, ask) = session['bot'].getMove()
+	return jsonify(player=player, ask=ask)
+
+@app.route("/api/giveResult")
+def giveResult():
+	#TODO
+	return ""
 
 @app.route('/')
 @app.route('/<path:path>')

@@ -17,7 +17,7 @@ class Enemy:
 		self.lack = []
 
 	def removeCard(self, card):
-		self.known = [i for i in self.known if i.matches(card)]
+		self.known = [i for i in self.known if not i.matches(card)]#TODO check
 	
 	def addCard(self, card):
 		self.known.append(card)
