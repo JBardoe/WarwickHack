@@ -1,12 +1,17 @@
+import type Game from "./Game";
+
 export default class Player {
 	hand: number[];
 	score: number;
+	game: Game;
 
-	constructor() {
+	constructor(game: Game) {
 		this.hand = [];
 		this.score = 0;
+		this.game = game;
 	}
 
+	//Player takes their initial hand from the deck
 	takeCards(deck: number[]) {
 		for (let i = 0; i < 7; i++) {
 			let index = Math.floor(Math.random() * deck.length);
@@ -15,14 +20,25 @@ export default class Player {
 			deck.splice(index, 1);
 		}
 		this.hand.sort((a: number, b: number) => a - b);
+		this.checkPairs();
 	}
 
+	//Check for pairs in the current hand
 	checkPairs() {
-		for (let i = 0; i < this.hand.length; i++) {
-			//todo
+		let i = 0;
+
+		while (i < this.hand.length - 1) {
+			if (this.hand[i] == this.hand[i + 1]) {
+				this.game.eliminatePair(this.hand[i]);
+				this.hand.splice(i, 2);
+				this.score++;
+			} else {
+				i++;
+			}
 		}
 	}
 
+	//Binary search to find a certain card
 	hasCard(card: number) {
 		let left = 0;
 		let right = this.hand.length - 1;
@@ -43,6 +59,7 @@ export default class Player {
 		return -1;
 	}
 
+	//Remove a card from the hand and return how many there were
 	giveCard(card: number) {
 		let count = 0;
 		let i = this.hasCard(card);
@@ -62,6 +79,7 @@ export default class Player {
 		return count;
 	}
 
+	//Add a card to the hand
 	gainCard(card: number, num: number) {
 		const index = this.hasCard(card);
 		if (index != -1) {
@@ -90,5 +108,6 @@ export default class Player {
 		for (let i = 0; i < num; i++) {
 			this.hand.splice(left, 0, card);
 		}
+		this.checkPairs();
 	}
 }

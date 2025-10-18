@@ -33,6 +33,11 @@ def giveResult():
 	#TODO
 	return ""
 
+@app.route("/api/eliminatePair")
+def eliminatePair():
+	#TODO
+	return ""
+
 @app.route('/')
 @app.route('/<path:path>')
 def serve_react(path=''):

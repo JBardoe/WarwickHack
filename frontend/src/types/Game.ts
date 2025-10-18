@@ -4,6 +4,7 @@ import Player from "./Player";
 export default class Game {
 	deck: number[];
 	players: Player[];
+	bot: Bot;
 
 	constructor(numPlayers: number) {
 		this.deck = Array.from({ length: 4 }, () =>
@@ -14,14 +15,14 @@ export default class Game {
 		this.players = [];
 
 		for (let i = 0; i < numPlayers; i++) {
-			this.players.push(new Player());
+			this.players.push(new Player(this));
 			this.players[i].takeCards(this.deck);
 		}
 
-		const bot = new Bot();
-		bot.takeCards(this.deck);
+		this.bot = new Bot();
+		this.bot.takeCards(this.deck);
 
-		this.players.push(bot);
+		this.players.push(this.bot);
 		for (let i = this.players.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
 			[this.players[i], this.players[j]] = [
@@ -46,5 +47,9 @@ export default class Game {
 		this.deck.splice(index, 1);
 		player.gainCard(card, 1);
 		return card;
+	}
+
+	eliminatePair(card: number) {
+		this.bot.eliminatePair(card);
 	}
 }
