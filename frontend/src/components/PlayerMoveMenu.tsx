@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type Game from "../types/Game";
+import numToCard from "../utils/NumToCard";
 
 interface PlayerMoveMenuProps {
 	currentPlayer: number;
@@ -93,20 +94,4 @@ const PlayerMoveMenu = ({
 		</div>
 	);
 };
-
-function numToCard(num: number) {
-	switch (num) {
-		case 13:
-			return "King";
-		case 12:
-			return "Queen";
-		case 11:
-			return "Jack";
-		case 1:
-			return "Ace";
-		default:
-			return num.toString();
-	}
-}
-
 export default PlayerMoveMenu;

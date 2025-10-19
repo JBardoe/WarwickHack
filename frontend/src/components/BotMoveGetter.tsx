@@ -1,12 +1,15 @@
 import axios from "axios";
 import { useState } from "react";
+import type Game from "../types/Game";
+import numToCard from "../utils/NumToCard";
 
 interface BotMoveGetterProps {
 	currentPlayer: number;
+	game: Game;
 	doMove: (asker: number, asked: number, card: number) => number;
 }
 
-const BotMoveGetter = ({ currentPlayer, doMove }: BotMoveGetterProps) => {
+const BotMoveGetter = ({ currentPlayer, game, doMove }: BotMoveGetterProps) => {
 	const [status, setStatus] = useState(0);
 
 	const getMove = () => {
@@ -38,7 +41,15 @@ const BotMoveGetter = ({ currentPlayer, doMove }: BotMoveGetterProps) => {
 	};
 
 	return status == 0 ? (
-		<div>
+		<div className="flex flex-col items-center justify-center">
+			<h2 className="font-semibold text-center text-2xl mb-5">
+				Current Hand:{" "}
+				{game.bot.hand
+					.map((value, _) => {
+						return numToCard(value);
+					})
+					.join(", ")}
+			</h2>
 			<button
 				onClick={() => {
 					setStatus(1);

@@ -56,7 +56,10 @@ const GameDisplay = ({ game }: GameDisplayProps) => {
 			) : (
 				<>
 					{currentMove.length !== 0 && (
-						<MoveDisplay move={currentMove} />
+						<MoveDisplay
+							move={currentMove}
+							isBot={currentPlayer == game.bot.turn}
+						/>
 					)}
 					{movingPlayer !== -1 && (
 						<PlayerDisplay
@@ -70,6 +73,7 @@ const GameDisplay = ({ game }: GameDisplayProps) => {
 						{currentPlayer === game.bot.turn ? (
 							<BotMoveGetter
 								currentPlayer={currentPlayer}
+								game={game}
 								doMove={doMove}
 							/>
 						) : (
