@@ -18,9 +18,11 @@ const MoveDisplay = ({ move, isBot }: MoveDisplayProps) => {
 					</>
 				) : (
 					<>
-						<p className="text-xl italic">
-							Bot asks player {move[1] + 1} for a {move[2]}
-						</p>
+						{isBot && (
+							<p className="text-xl italic">
+								Bot asks player {move[1] + 1} for a {move[2]}
+							</p>
+						)}
 						<h1 className="text-5xl font-bold mb-2">GO FISH!</h1>
 						{move[3] === -2 ? (
 							<p className="text-xl opacity-95 italic">

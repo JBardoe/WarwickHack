@@ -8,6 +8,7 @@ const Home = () => {
 
 	return !currentGame ? (
 		<div className="w-full h-full flex flex-col items-center justify-center">
+			<img src="/public/Logo.png" className="w-40 mb-10" />
 			<NewGameMenu setCurrentGame={setCurrentGame} />
 		</div>
 	) : (
