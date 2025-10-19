@@ -3,8 +3,6 @@ interface MoveDisplayProps {
 }
 
 const MoveDisplay = ({ move }: MoveDisplayProps) => {
-	console.log("Received new move " + move.toString());
-
 	return (
 		<div className="fixed top-0 left-0 z-50 h-[100vh] w-[100vw] flex flex-col items-center justify-center">
 			<div className="bg-gray-500 rounded-2xl transition-all text-center p-10 opacity-100">

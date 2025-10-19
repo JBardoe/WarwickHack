@@ -42,9 +42,21 @@ export default class Game {
 		if (this.players[asked].hasCard(card) != -1) {
 			const num = this.players[asked].giveCard(card);
 			this.players[asker].gainCard(card, num);
+			if (this.players[asker].hand.length == 0) {
+				this.ended.push(this.players[asker]);
+			}
+			if (this.players[asked].hand.length == 0) {
+				this.ended.push(this.players[asked]);
+			}
+			this.playerEnd();
 			return -1;
 		}
-		return this.goFish(this.players[asker]);
+		const newCard = this.goFish(this.players[asker]);
+		if (this.players[asker].hand.length == 0) {
+			this.ended.push(this.players[asker]);
+			this.playerEnd();
+		}
+		return newCard;
 	}
 
 	goFish(player: Player) {
@@ -53,6 +65,7 @@ export default class Game {
 		const card = this.deck[index];
 		this.deck.splice(index, 1);
 		player.gainCard(card, 1);
+
 		return card;
 	}
 
@@ -61,16 +74,15 @@ export default class Game {
 		this.bot.eliminatePair(card);
 	}
 
-	playerEnd(player: Player) {
-		this.ended.push(player);
-		if (this.ended.length === this.players.length - 1) {
+	playerEnd() {
+		if (this.players.length - this.ended.length === 1) {
 			const remainingPlayer = this.players.filter((i) => {
 				return this.ended.indexOf(i) < 0;
 			})[0];
-			while (this.deck.length > 0) {
-				//Potential infinite loop
+			while (remainingPlayer.hand.length > 0) {
 				this.goFish(remainingPlayer);
 			}
+			this.ended.push(remainingPlayer);
 		}
 	}
 }

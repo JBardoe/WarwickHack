@@ -38,9 +38,6 @@ export default class Player {
 				i++;
 			}
 		}
-		if (this.hand.length == 0) {
-			this.game.playerEnd(this);
-		}
 	}
 
 	//Binary search to find a certain card
@@ -69,12 +66,12 @@ export default class Player {
 		let count = 0;
 		let i = this.hasCard(card);
 
-		while (this.hand[i] === card) {
+		while (i >= 0 && this.hand[i] === card) {
 			i--;
 		}
 		i++;
 		const startingIndex = i;
-		while (this.hand[i] === card) {
+		while (i < this.hand.length && this.hand[i] === card) {
 			count++;
 			i++;
 		}

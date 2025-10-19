@@ -40,7 +40,7 @@ const GameState = ({ game, currentPlayer }: GameStateProps) => {
 				</p>
 			</div>
 		</div>
-	); //TODO
+	);
 };
 
 export default GameState;
