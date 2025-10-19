@@ -83,8 +83,6 @@ if __name__ == '__main__':
 
 #TODO
 '''
-Testing
-Guess cards in deck to work out cards in hands
 Make Front end prettier
 Make presentation
 '''

@@ -7,7 +7,7 @@ interface WinnerDisplayProps {
 
 const WinnerDisplay = ({ game }: WinnerDisplayProps) => {
 	return (
-		<div className="bg-gray-400 dark:bg-gray-950 h-[100vh] w-full border-black border-b-2 overflow-y-scroll flex flex-col items-center justify-center">
+		<div className="bg-gray-400 dark:bg-gray-900 h-[100vh] w-full border-black border-b-2 overflow-y-scroll flex flex-col items-center justify-center">
 			<h1 className="text-center font-bold text-3xl">Leaderboard:</h1>
 			{game.players
 				.sort((a: Player, b: Player) => {

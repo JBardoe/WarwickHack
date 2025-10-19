@@ -42,10 +42,13 @@ const GameDisplay = ({ game }: GameDisplayProps) => {
 		if (game.bot.turn !== asker) {
 			game.bot.updateBot([asker, asked, card, result]);
 		}
-		setTimeout(() => {
-			setCurrentMove([]);
-			nextTurn();
-		}, 1000);
+		setTimeout(
+			() => {
+				setCurrentMove([]);
+				nextTurn();
+			},
+			asker == game.bot.turn ? 1600 : 1000
+		);
 		return result;
 	};
 

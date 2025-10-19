@@ -11,6 +11,12 @@ const MoveDisplay = ({ move, isBot }: MoveDisplayProps) => {
 			<div className="bg-gray-500 rounded-2xl transition-all text-center p-10 opacity-100">
 				{move[3] === -1 ? (
 					<>
+						{isBot && (
+							<p className="text-xl italic">
+								Bot asks player {move[1] + 1} for a{" "}
+								{numToCard(move[2])}
+							</p>
+						)}
 						<h1 className="text-5xl font-bold mb-2">Success!</h1>
 						<p className="text-xl opacity-95 italic">
 							Gained a {numToCard(move[2])}
@@ -20,7 +26,8 @@ const MoveDisplay = ({ move, isBot }: MoveDisplayProps) => {
 					<>
 						{isBot && (
 							<p className="text-xl italic">
-								Bot asks player {move[1] + 1} for a {move[2]}
+								Bot asks player {move[1] + 1} for a{" "}
+								{numToCard(move[2])}
 							</p>
 						)}
 						<h1 className="text-5xl font-bold mb-2">GO FISH!</h1>
