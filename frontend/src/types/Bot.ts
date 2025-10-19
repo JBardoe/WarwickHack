@@ -7,10 +7,13 @@ export default class Bot extends Player {
 		super(game, turn);
 	}
 
-	eliminatePair(card: number) {
+	eliminatePair(player: number, card: number) {
 		//TODO might be removable
 		axios
-			.post("https://localhost:5000/api/eliminatePair", { card: card })
+			.post("https://localhost:5000/api/eliminatePair", {
+				player: player,
+				card: card,
+			})
 			.catch((err) => console.error(err));
 	}
 

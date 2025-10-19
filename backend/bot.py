@@ -36,6 +36,16 @@ class Bot:
 		
 		return (self.enemies[random.randint(0, len(self.enemies) - 1)].turn, self.hand[random.randint(0, len(self.hand) - 1)])
 		
-
+	def reactEnemyToEnemy(self, asker, asked, card, result):#TODO
+		return
+	
+	def reactEnemyToSelf(self, player, card, result):#TODO
+		return
+	
+	def reactSelfToEnemy(self, asked, card, result):#TODO
+		return
+	
+	def reactPairElimination(self, card, player): #TODO
+		return
 
 #TODO remove enemy from list when no cards

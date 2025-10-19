@@ -69,9 +69,8 @@ export default class Game {
 		return card;
 	}
 
-	eliminatePair(card: number) {
-		//TODO might be removable
-		this.bot.eliminatePair(card);
+	eliminatePair(player: number, card: number) {
+		this.bot.eliminatePair(player, card);
 	}
 
 	playerEnd() {

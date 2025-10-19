@@ -15,30 +15,40 @@ def handle_error(e):
 	print("Error:", e)
 	return jsonify(message="An unexpected error has occurred"), 500
 
-@app.route("/api/startGame")
+@app.route("/api/startGame", methods=["POST"])
 def startGame():
 	json = request.get_json()
 	numPlayers = json.get("numPlayers")
-	turn = json.get("turn") #0-numPlayers + 1 - where the bot is in the turn order
+	hand = json.get("hand")
+	turn = json.get("turn")
 
-	session['bot'] = Bot()#TODO
+	session['bot'] = Bot(numPlayers=numPlayers, hand=hand, turn=turn)
 
-@app.route("/api/getMove")
+@app.route("/api/getMove", methods=["POST"])
 def getMove():
-	(player, ask) = session['bot'].getMove()#TODO
+	(player, ask) = session['bot'].getMove()
 	return jsonify(player=player, ask=ask)
 
-@app.route("/api/giveResult")
+@app.route("/api/giveResult", methods=["POST"])
 def giveResult():
-	#TODO
-	return ""
+	json = request.get_json()
+	asked = json.get("asked"),
+	card = json.get("card"),
+	result = json.get("result"),
 
-@app.route("/api/eliminatePair")
+	session['bot'].reactSelfToEnemy(asked, card, result)
+	return 200
+
+@app.route("/api/eliminatePair", methods=["POST"])
 def eliminatePair():
-	#TODO might be removable
-	return ""
+	json = request.get_json()
+	player = json.get("player")
+	card = json.get("card")
 
-@app.route("/api/updateBot")
+	session['bot'].reactPairElimination(player, card)
+	return 200
+
+@app.route("/api/updateBot", methods=["POST"])
 def updateBot():
 	json = request.get_json()
 	asker = json.get("asker")
@@ -46,11 +56,14 @@ def updateBot():
 	card = json.get("card")
 	result = json.get("result")
 
-	#TODO 
-	return ""
+	if asked == session['bot'].turn:
+		session['bot'].reactEnemyToSelf(asker, card, result)
+	else:
+		session['bot'].reactEnemyToEnemy(asker, asked, card, result)
+	return 200
 
-@app.route('/')
-@app.route('/<path:path>')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/<path:path>', methods=['GET', 'POST'])
 def serve_react(path=''):
 	if path != "" and os.path.exists(os.path.join(app.static_folder, path)):
 		return send_from_directory(app.static_folder, path)

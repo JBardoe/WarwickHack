@@ -18,7 +18,7 @@ const BotMoveGetter = ({ currentPlayer, doMove }: BotMoveGetterProps) => {
 					res.data.player,
 					res.data.ask
 				);
-				giveResult(result);
+				giveResult(res.data.player, res.data.ask, result);
 				setStatus(2);
 			})
 			.catch((err) => {
@@ -27,9 +27,13 @@ const BotMoveGetter = ({ currentPlayer, doMove }: BotMoveGetterProps) => {
 			});
 	};
 
-	const giveResult = (result: number) => {
+	const giveResult = (asked: number, card: number, result: number) => {
 		axios
-			.post("https://localhost:5000/api/giveResult", { result: result })
+			.post("https://localhost:5000/api/giveResult", {
+				asked: asked,
+				card: card,
+				result: result,
+			})
 			.catch((err) => console.error(err));
 	};
 

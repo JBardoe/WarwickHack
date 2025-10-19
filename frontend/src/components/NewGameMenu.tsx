@@ -14,6 +14,7 @@ const NewGameMenu = ({ setCurrentGame }: NewGameMenuProps) => {
 		setCurrentGame(newGame);
 		axios.post("https://localhost:5000/api/startGame", {
 			numPlayers: newGame.players.length - 1,
+			hand: newGame.bot.hand,
 			turn: newGame.bot.turn,
 		});
 	};

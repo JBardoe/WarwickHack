@@ -31,7 +31,7 @@ export default class Player {
 
 		while (i < this.hand.length - 1) {
 			if (this.hand[i] == this.hand[i + 1]) {
-				this.game.eliminatePair(this.hand[i]);
+				this.game.eliminatePair(this.turn, this.hand[i]);
 				this.hand.splice(i, 2);
 				this.score++;
 			} else {
