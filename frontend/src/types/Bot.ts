@@ -9,7 +9,7 @@ export default class Bot extends Player {
 
 	eliminatePair(player: number, card: number) {
 		axios
-			.post("https://localhost:5000/api/eliminatePair", {
+			.post("http://localhost:5000/api/eliminatePair", {
 				player: player,
 				card: card,
 			})
@@ -18,7 +18,7 @@ export default class Bot extends Player {
 
 	updateBot(move: number[]) {
 		axios
-			.post("https://localhost:5000/api/updateBot", {
+			.post("http://localhost:5000/api/updateBot", {
 				asker: move[0],
 				asked: move[1],
 				card: move[2],

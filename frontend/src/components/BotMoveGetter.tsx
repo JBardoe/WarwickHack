@@ -11,7 +11,7 @@ const BotMoveGetter = ({ currentPlayer, doMove }: BotMoveGetterProps) => {
 
 	const getMove = () => {
 		axios
-			.post("https://localhost:5000/api/getMove")
+			.post("http://localhost:5000/api/getMove")
 			.then((res) => {
 				const result = doMove(
 					currentPlayer,
@@ -29,7 +29,7 @@ const BotMoveGetter = ({ currentPlayer, doMove }: BotMoveGetterProps) => {
 
 	const giveResult = (asked: number, card: number, result: number) => {
 		axios
-			.post("https://localhost:5000/api/giveResult", {
+			.post("http://localhost:5000/api/giveResult", {
 				asked: asked,
 				card: card,
 				result: result,

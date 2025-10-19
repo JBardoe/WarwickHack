@@ -12,11 +12,16 @@ const NewGameMenu = ({ setCurrentGame }: NewGameMenuProps) => {
 	const handleSubmit = () => {
 		const newGame = new Game(currentNum);
 		setCurrentGame(newGame);
-		axios.post("https://localhost:5000/api/startGame", {
-			numPlayers: newGame.players.length - 1,
-			hand: newGame.bot.hand,
-			turn: newGame.bot.turn,
-		});
+		axios
+			.post("http://localhost:5000/api/startGame", {
+				numPlayers: newGame.players.length - 1,
+				hand: newGame.bot.hand,
+				turn: newGame.bot.turn,
+			})
+			.then((_) => {
+				newGame.beginPairElimination();
+			})
+			.catch((err) => console.error(err));
 	};
 
 	return (

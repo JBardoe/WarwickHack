@@ -22,7 +22,6 @@ export default class Player {
 			deck.splice(index, 1);
 		}
 		this.hand.sort((a: number, b: number) => a - b);
-		this.checkPairs();
 	}
 
 	//Check for pairs in the current hand

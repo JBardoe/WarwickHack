@@ -38,6 +38,12 @@ export default class Game {
 		}
 	}
 
+	beginPairElimination() {
+		this.players.forEach((element) => {
+			element.checkPairs();
+		});
+	}
+
 	move(asker: number, asked: number, card: number) {
 		if (this.players[asked].hasCard(card) != -1) {
 			const num = this.players[asked].giveCard(card);

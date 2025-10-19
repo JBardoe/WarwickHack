@@ -9,6 +9,7 @@ app.secret_key = "secretKey"
 
 CORS(app, supports_credentials=True)
 
+bot = None
 
 @app.errorhandler(Exception)
 def handle_error(e):
@@ -22,11 +23,14 @@ def startGame():
 	hand = json.get("hand")
 	turn = json.get("turn")
 
-	session['bot'] = Bot(numPlayers=numPlayers, hand=hand, turn=turn)
+	global bot
+	bot = Bot(numPlayers=numPlayers, hand=hand, turn=turn)
+	return "", 200
 
 @app.route("/api/getMove", methods=["POST"])
 def getMove():
-	(player, ask) = session['bot'].getMove()
+	global bot
+	(player, ask) = bot.getMove()
 	return jsonify(player=player, ask=ask)
 
 @app.route("/api/giveResult", methods=["POST"])
@@ -36,8 +40,9 @@ def giveResult():
 	card = json.get("card"),
 	result = json.get("result"),
 
-	session['bot'].reactSelfToEnemy(asked, card, result)
-	return 200
+	global bot
+	bot.reactSelfToEnemy(asked, card, result)
+	return "",200
 
 @app.route("/api/eliminatePair", methods=["POST"])
 def eliminatePair():
@@ -45,8 +50,9 @@ def eliminatePair():
 	player = json.get("player")
 	card = json.get("card")
 
-	session['bot'].reactPairElimination(player, card)
-	return 200
+	global bot
+	bot.reactPairElimination(player, card)
+	return "", 200
 
 @app.route("/api/updateBot", methods=["POST"])
 def updateBot():
@@ -56,11 +62,12 @@ def updateBot():
 	card = json.get("card")
 	result = json.get("result")
 
-	if asked == session['bot'].turn:
-		session['bot'].reactEnemyToSelf(asker, card, result)
+	global bot
+	if asked == bot.turn:
+		bot.reactEnemyToSelf(asker, card, result)
 	else:
-		session['bot'].reactEnemyToEnemy(asker, asked, card, result)
-	return 200
+		bot.reactEnemyToEnemy(asker, asked, card, result)
+	return "", 200
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/<path:path>', methods=['GET', 'POST'])

@@ -5,7 +5,6 @@ class Enemy:
 		self.numCards = numCards
 		self.known = known
 		self.lack = lack
-		self.isPlaceholder = False
 
 	def fished(self):
 		self.numCards += 1

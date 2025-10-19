@@ -1,10 +1,10 @@
 import random
-from models import Enemy, Placeholder
+from models import Enemy
 
 class Bot:
 	def __init__(self, numPlayers, hand, turn):
-		self.enemies = [Enemy(i) for i in range(numPlayers)]
-		for i in range(turn + 1, len(self.enemies)):
+		self.enemies = [Enemy(turn=i) for i in range(numPlayers)]
+		for i in range(turn, len(self.enemies)):
 			self.enemies[i].turn += 1
 		self.hand = hand
 		self.turn = turn
@@ -20,10 +20,10 @@ class Bot:
 		#Otherwise, check the card we know the most people don't have
 		lacking = [self.enemies for i in range(len(self.hand))]
 
-		for i in range(len(self.hand)):
-			lacking[i] = filter(lambda x: self.hand[i] not in x.lack,lacking[i])
+		for i, handCard in enumerate(self.hand):
+			lacking[i] = [x for x in lacking[i] if handCard not in x.lack]
 
-		lengths = map(lambda x: len(x), lacking)
+		lengths = [len(x) for x in lacking]
 
 		longest = 0
 
@@ -58,11 +58,11 @@ class Bot:
 		askerEnemy = [e for e in self.enemies if e.turn == asker][0]
 		askedEnemy = [e for e in self.enemies if e.turn == asked][0]
 
-		askerEnemy.lack = filter(lambda x: x != card, askerEnemy.lack)
+		askerEnemy.lack = [x for x in askerEnemy.lack if x != card]
 		if card not in askerEnemy.known: #Should always be true
 			askerEnemy.known.append(card)
 
-		askedEnemy.known = filter(lambda x: x != card, askedEnemy.known)
+		askedEnemy.known = [x for x in askedEnemy.known if x != card]
 		if card not in askedEnemy.lack: #Should always be true
 			askedEnemy.lack.append(card)
 
@@ -76,20 +76,20 @@ class Bot:
 	def reactEnemyToSelf(self, player, card, result):
 		playerEnemy = [e for e in self.enemies if e.turn == player][0]
 
-		playerEnemy.lack = filter(lambda x: x != card, playerEnemy.lack)
+		playerEnemy.lack = [x for x in playerEnemy.lack if x != card]
 		if card not in playerEnemy.known: #Should always be true
 			playerEnemy.known.append(card)
 
 		if result == -1:
-			self.hand = filter(lambda x: x != card, self.hand)
+			self.hand = [x for x in self.hand if x != card]
 			playerEnemy.numCards += 1
 		elif result != -2:
 			playerEnemy.fished()
 
 
 	def reactSelfToEnemy(self, asked, card, result):
-		enemy = [e for e in self.enemies if e.turn == asked][0]
-		enemy.known = filter(lambda x: x != card, enemy.known)
+		enemy = [e for e in self.enemies if e.turn == asked[0]][0]
+		enemy.known = [x for x in enemy.known if x != card]
 		if card not in enemy.lack: #Should always be true
 			enemy.lack.append(card)
 		
@@ -98,11 +98,11 @@ class Bot:
 			self.removePair(card)
 			enemy.numCards -= 1
 			if len(enemy.hand) == 0:
-				self.enemies = filter(lambda x:x.turn == asked, self.enemies)
+				self.enemies = [x for x in self.enemies if x.turn == asked]
 		elif result != -2:
 			self.addCard(card)
 		
-	def reactPairElimination(self, card, player):
+	def reactPairElimination(self, player, card):
 		if player == self.turn:
 			self.removePair(card)
 		else:
